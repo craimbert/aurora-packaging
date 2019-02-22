@@ -27,7 +27,6 @@ run_build() {
   BUILDER_DIR=$1
   RELEASE_TAR=$2
   AURORA_VERSION=$3
-  AURORA_SNAPSHOT_VERSION=$4
 
   env
 
@@ -35,7 +34,7 @@ run_build() {
   echo "Using docker image $IMAGE_NAME"
   docker build --pull -t "$IMAGE_NAME" "$BUILDER_DIR"
 
-  CONTAINER_NAME="${AURORA_SNAPSHOT_VERSION}"
+  CONTAINER_NAME="${AURORA_VERSION}"
   docker run \
     --name="${CONTAINER_NAME}" \
     -e AURORA_VERSION=$AURORA_VERSION \
