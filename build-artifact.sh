@@ -44,8 +44,8 @@ run_build() {
     -t "$IMAGE_NAME" /build.sh
   artifact_dir="artifacts/$IMAGE_NAME"
   mkdir -p "$artifact_dir"
-  docker cp ${CONTAINER_NAME}:/dist "$artifact_dir"
-  docker rm "$container"
+  docker cp "${CONTAINER_NAME}:/dist" "$artifact_dir"
+  docker rm "${CONTAINER_NAME}"
 
   echo "Produced artifacts in $artifact_dir:"
   ls -R "$artifact_dir"
