@@ -27,21 +27,25 @@ run_build() {
   BUILDER_DIR=$1
   RELEASE_TAR=$2
   AURORA_VERSION=$3
+  AURORA_SNAPSHOT_VERSION=$4
+
+  env
 
   IMAGE_NAME="aurora-$(basename $BUILDER_DIR)"
   echo "Using docker image $IMAGE_NAME"
   docker build --pull -t "$IMAGE_NAME" "$BUILDER_DIR"
 
+  CONTAINER_NAME="${AURORA_SNAPSHOT_VERSION}"
   docker run \
+    --name="${CONTAINER_NAME}" \
     -e AURORA_VERSION=$AURORA_VERSION \
     --net=host \
     -v "$(pwd)/specs:/specs:ro" \
     -v "$(realpath $RELEASE_TAR):/src.tar.gz:ro" \
     -t "$IMAGE_NAME" /build.sh
-  container=$(docker ps -l -q)
   artifact_dir="artifacts/$IMAGE_NAME"
   mkdir -p "$artifact_dir"
-  docker cp $container:/dist "$artifact_dir"
+  docker cp ${CONTAINER_NAME}:/dist "$artifact_dir"
   docker rm "$container"
 
   echo "Produced artifacts in $artifact_dir:"
