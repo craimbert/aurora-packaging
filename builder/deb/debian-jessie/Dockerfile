@@ -21,11 +21,11 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN echo \
    'deb http://mirrors.kernel.org/debian/ jessie main\n \
     deb http://mirrors.kernel.org/debian/ jessie-updates main\n \
-    deb http://mirrors.kernel.org/debian/ jessie-backports main\n \
+    deb http://archive.debian.org/debian jessie-backports main\n \
     deb http://security.debian.org jessie/updates main\n' \
     > /etc/apt/sources.list
 
-RUN apt-get update && apt-get -y install \
+RUN apt-get -o Acquire::Check-Valid-Until=false update && apt-get -y install \
   bison \
   debhelper \
   dh-systemd \
