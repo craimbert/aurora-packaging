@@ -42,8 +42,11 @@ RUN apt-get -o Acquire::Check-Valid-Until=false update && apt-get -y install \
   python-all-dev \
   software-properties-common
 
-RUN apt-get -y -t jessie-backports install openjdk-8-jdk \
-   && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
+RUN cat /etc/apt/sources.list
+
+RUN apt-get -o Acquire::Check-Valid-Until=false update \
+  && apt-get -y -t jessie-backports install openjdk-8-jdk \
+  && update-alternatives --set java /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java
 
 # TODO (shirchen): explore possiblity of downloading gradle directly from gradle. Issue is that
 # there's already a build-time dep of a package name 'gradle'.
